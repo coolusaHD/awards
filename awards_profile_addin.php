@@ -27,7 +27,7 @@ $user->readDataByUuid($getUserUuid);
 // Ehrungen aus Datenbank laden
 $awards = awa_load_awards($user->getValue('usr_id'), true);
 
-if ($awards === false) {
+if ($awards === null) {
     return;
 }
 

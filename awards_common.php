@@ -25,11 +25,9 @@ function isAwardsDbInstalled(): bool
 {
     global $gDb;
     
-    // Use modern Admidio v5 database API with prepared statements
+    // Use Admidio v5 database API to check table existence
     try {
-        $sql = "SHOW TABLES LIKE '" . TBL_USER_AWARDS . "'";
-        $query = $gDb->queryPrepared($sql);
-        return $query->rowCount() > 0;
+        return $gDb->tableExists(TBL_USER_AWARDS);
     } catch (Exception $e) {
         return false;
     }
@@ -80,11 +78,11 @@ unset($tablename);
 
 /**
  * Load awards for a user or all users
- * @param int|false $userid User ID to load awards for, or false for all
+ * @param int $userid User ID to load awards for, or 0 for all
  * @param bool $show_all Show awards from all organizations
- * @return array|false Returns array of awards or false if none found
+ * @return array|null Returns array of awards or null if none found
  */
-function awa_load_awards(int|false $userid, bool $show_all): array|false
+function awa_load_awards(int $userid, bool $show_all): ?array
 {
     global $gCurrentOrganization;
     global $gProfileFields;
@@ -93,7 +91,7 @@ function awa_load_awards(int|false $userid, bool $show_all): array|false
     $restriction = "";
     $queryParams = array();
     
-    if (is_int($userid) && $userid > 0) {
+    if ($userid > 0) {
         $restriction = ' WHERE awa_usr_id = ? ';
         $queryParams[] = $userid;
     }
@@ -147,7 +145,7 @@ function awa_load_awards(int|false $userid, bool $show_all): array|false
     $query = $gDb->queryPrepared($sql, $fullParams);
     
     if ($query->rowCount() === 0) {
-        return false;
+        return null;
     }
     
     return $query->fetchAll();

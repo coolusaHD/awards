@@ -100,8 +100,7 @@ if ($get_req != 'csv') {
 		$table = new HtmlTable('adm_lists_table', $page, $hoverRows, $datatable, $classTable);
 	}
     elseif ($get_req == 'pdf') {
-        // Admidio v5 has TCPDF in a different path
-        require_once(ADMIDIO_PATH . FOLDER_LIBS . '/tecnickcom/tcpdf/tcpdf.php');
+        // TCPDF is loaded via Composer autoload in Admidio v5
         $pdf = new TCPDF($orientation, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
 		// set document information
@@ -230,9 +229,9 @@ if(!isAwardsDbInstalled()){
 	return;
 }
 
-$awards=awa_load_awards(false,$show_all);
+$awards = awa_load_awards(0, $show_all);
 
-if ($awards===false)
+if ($awards === null) {
 {
 	$page->addHtml('<p>'.$gL10n->get('AWA_NO_DATA').'</p>');
 	$page->show();

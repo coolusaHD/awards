@@ -159,8 +159,8 @@ if (isset($_POST['submit'])) {
         $INPUTOK = false;
     }
     
-    if (strlen($POST_award_date) < 4) {
-        // Datum Pflicht!
+    if (strlen($POST_award_date) < 4 || empty($InternalDate)) {
+        // Datum Pflicht! (must be a valid date)
         $ErrorStr .= '<p><span class="text-danger"><i class="bi bi-exclamation-circle-fill"></i>&nbsp;' . $gL10n->get('AWA_ERR_NO_DATE') . '</span></p>';
         $INPUTOK = false;
     }
