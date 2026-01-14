@@ -232,10 +232,9 @@ if(!isAwardsDbInstalled()){
 $awards = awa_load_awards(0, $show_all);
 
 if ($awards === null) {
-{
-	$page->addHtml('<p>'.$gL10n->get('AWA_NO_DATA').'</p>');
-	$page->show();
-	return;
+    $page->addHtml('<p>' . $gL10n->get('AWA_NO_DATA') . '</p>');
+    $page->show();
+    return;
 }
 
 //generate headlines
